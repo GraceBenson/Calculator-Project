@@ -15,6 +15,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+private slots:
+    void digit_pressed();
+
 private:
     Ui::MainWindow *ui;
 };
