@@ -374,7 +374,7 @@ background-color: white;</string>
      </rect>
     </property>
     <property name="text">
-     <string>mod</string>
+     <string>%</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_derivative">
@@ -439,7 +439,7 @@ background-color: white;</string>
      </rect>
     </property>
     <property name="text">
-     <string>n!</string>
+     <string>!</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_openparenthesis">
