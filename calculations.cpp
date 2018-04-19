@@ -41,7 +41,7 @@
 #include <map>
 #include <math.h>
 #include <stack>
-#include "COP3503-Project.h"
+#include "cop3503-project.h"
 
 
 using namespace std;
@@ -385,11 +385,11 @@ std::string preProcess(std::string input) {
     return newString;
 }
 
-int main(){
+//int main(){
 
-    //TO DO: derivative, sin cos tan, ln
+//    //TO DO: derivative, sin cos tan, ln
 
-    cout << processPostfix(shuntingYard(preProcess("3! + 5 + 8")));
+//    cout << processPostfix(shuntingYard(preProcess("3! + 5 + 8")));
 
-}
+//}
 

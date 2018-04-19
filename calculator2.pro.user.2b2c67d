@@ -1,6 +1,7 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.5.2, 2018-04-17T13:13:40. -->
+<!-- Written by QtCreator 4.5.2, 2018-04-19T14:26:33. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -292,7 +293,7 @@
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">calculator2.pro</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory"></value>
-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default">C:/Users/anush/Documents/build-calculator2-Desktop_Qt_5_10_1_MinGW_32bit-Debug</value>
+    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default"></value>
     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
@@ -316,3 +317,4 @@
   <value type="int">18</value>
  </data>
 </qtcreator>
+

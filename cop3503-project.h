@@ -1,9 +1,18 @@
+
+#ifndef COP3503PROJECT_H
+#define COP3503PROJECT_H
+
 #include <iostream>
 #include <string>
 #include <fstream>
 #include <sstream>
 #include <stack>
 #include <vector>
+
+std::string processPostfix(std::string);
+std::string shuntingYard(std::string);
+std::string preProcess(std::string);
+int factorial(int);
 
 class Stack {
     private:
@@ -26,3 +35,6 @@ class Stack {
         //returns false if array contains at least one element
 
 };
+
+
+#endif // COP3503PROJECT_H
