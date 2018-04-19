@@ -22,9 +22,6 @@ private slots:
     void digit_pressed();
     void on_clearbutton_released();
     void on_equals_released();
-    void on_on_released();
-    void on_question_released();
 };
-
 
 #endif // MAINWINDOW_H
