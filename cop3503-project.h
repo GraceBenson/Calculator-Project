@@ -1,6 +1,3 @@
-#ifndef COP3503PROJECT_H
-#define COP3503PROJECT_H
-
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -29,6 +26,3 @@ class Stack {
         //returns false if array contains at least one element
 
 };
-
-
-#endif // COP3503PROJECT_H

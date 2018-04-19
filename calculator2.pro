@@ -25,8 +25,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp \
-    calculations.cpp
+        mainwindow.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -37,5 +36,3 @@ FORMS += \
 
 RESOURCES += \
     images.qrc
-
-DISTFILES +=

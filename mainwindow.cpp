@@ -1,13 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include  "random"
-#include "QInputDialog"
-#include "QMessageBox"
 
-
-
-
-QString labelNumber;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -83,6 +77,8 @@ void MainWindow::on_clearbutton_released()
 
 }
 
+
+/*
 void MainWindow::on_equals_released(){
     QMessageBox::information(
                 this,
@@ -90,3 +86,5 @@ void MainWindow::on_equals_released(){
                 tr(labelNumber.toLocal8Bit().constData())
                 );
 }
+*/
+

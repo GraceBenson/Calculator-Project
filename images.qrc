@@ -74,7 +74,5 @@
         <file>dotbutton.png</file>
         <file>negbutton.png</file>
         <file>blank.png</file>
-        <file>onbutton.png</file>
-        <file>onpressed.png</file>
     </qresource>
 </RCC>
