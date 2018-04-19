@@ -8,6 +8,11 @@
 #include <stack>
 #include <vector>
 
+std::string processPostfix(std::string);
+std::string shuntingYard(std::string);
+std::string preProcess(std::string);
+int factorial(int);
+
 class Stack {
     private:
         //define vector to form basis of stack;
