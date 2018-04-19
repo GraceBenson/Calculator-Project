@@ -29,10 +29,12 @@ SOURCES += \
 
 HEADERS += \
         mainwindow.h \
-    source.h
+    cop3503-project.h
 
 FORMS += \
         mainwindow.ui
 
 RESOURCES += \
     images.qrc
+
+DISTFILES +=

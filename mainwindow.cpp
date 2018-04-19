@@ -1,8 +1,13 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include  "random"
+#include "QInputDialog"
+#include "QMessageBox"
+
+
+
 
 QString labelNumber;
-std::string str;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -69,17 +74,19 @@ void MainWindow::digit_pressed()
 //    }
  //   QString numLabel = QString::number(labelNumber, 'g', 15);
     ui->label->setText(labelNumber);
-    str = labelNumber.toStdString();
-
 }
 
 void MainWindow::on_clearbutton_released()
 {
     labelNumber= "0";
     ui->label->setText(labelNumber);
+
 }
 
-void MainWindow::on_equals_released()
-{
-
+void MainWindow::on_equals_released(){
+    QMessageBox::information(
+                this,
+                tr("Application name"),
+                tr(labelNumber.toLocal8Bit().constData())
+                );
 }

@@ -1,5 +1,39 @@
-#include "mainwindow.h"
-#include <QApplication>
+
+/*
+ Hints:
+
+ The natural logarithm is base e.
+ The common logarithm is base 10.
+ The area of a circle is pi times the radius squared.
+ The area of a triangle is one half the base times the height.
+ Remember to use PEMDAS!
+ Decimal numbers can't be used with the modulo operator.
+ Don't use the negative sign for subtraction!
+ The integral is the opposite operation of the derivative.
+ The derivative returns the rate of change of a function at a point.
+ Math is fun!
+
+ The largest number that divides two numbers is the greatest common divisor.
+ The square of a number is the number multiplied by itself.
+ The cube of a number is the product of a number and its square.
+ The natural logarithm of e is 1.
+ The common logarithm of 10 is 1.
+ e is equal to 2.71828...
+ pi is equal to 3.14159.....
+ Press CLEAR or ON to erase the screen.
+ Keep up the hard work!
+ X% of Y is Y% of X.
+
+ You cannot take the logarithm of a negative number.
+ You cannot use the factorial operation on a decimal.
+ Some functions cannot be integrated.
+ The calculator may take a long time to process some operations. Be patient!
+ The problem with calculus jokes is that they're all derivative.
+
+
+ */
+#define _GLIBCXX_USE_CXX11_ABI 0
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -7,19 +41,10 @@
 #include <map>
 #include <math.h>
 #include <stack>
-#include "COP3503-Project.h"
+#include "cop3503-project.h"
+
 
 using namespace std;
-
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-
-    return a.exec();
-}
-
 Stack::Stack() {
     //initialize empty array
     array = {};
@@ -178,7 +203,7 @@ std::string processPostfix (std::string postfix)
     int i = 0;
     int digitLength = 0;
 
-    while(i < postfix.length())
+    while((unsigned) i < postfix.length())
     {
         //TODO make sure only one period and no negatives in the middle of the number
         if(isdigit(postfix.at(i)) || postfix.at(i) == '.' || postfix.at(i) == '~')  //if an element is a number, see how many digits it is and add that number to a stack.
@@ -240,7 +265,6 @@ std::string processPostfix (std::string postfix)
 
 
 std::string shuntingYard(std::string input) {
-
     Stack * output = new Stack();
     Stack * operators = new Stack();
 
@@ -260,7 +284,7 @@ std::string shuntingYard(std::string input) {
 
 
     int index = 0;
-    for (int x = 0; x < input.length(); x++) {
+    for (int x = 0; (unsigned) x < input.length(); x++) {
 
 
         //extract digits
@@ -279,8 +303,27 @@ std::string shuntingYard(std::string input) {
         //list of operators for find method
 
         //extract operators
-        if (find(begin(operatorList), end(operatorList), input.substr(x, 1)) != end(operatorList)) {
-            string op = input.substr(x, 1);
+
+
+
+        //std::string a = input.substr(x,1);
+        //std::string b = end(operatorList);
+
+        //if (find(begin(operatorList), end(operatorList), input.substr(x, 1)) != end(operatorList)) {
+
+//        std::string c = input.substr(x, 1);
+//        std::string *a = find(begin(operatorList), end(operatorList), c);
+//        std::string *b = end(operatorList);
+//        bool isEqual = false;
+//        for(auto i: operatorList) {
+//            if(i == c) {
+//                isEqual = true;
+//                break;
+//            }
+//        }
+//        if(isEqual) {
+        if(std::find(begin(operatorList), end(operatorList), input.substr(x, 1)) != end(operatorList)) {
+        string op = input.substr(x, 1);
             while (((precedence[operators->peek()] > precedence[op]) || (operators->peek() == "^")) && operators->peek() != "(" && op != "(") {
                 output->push(operators->pop());
             }
@@ -305,7 +348,7 @@ std::string shuntingYard(std::string input) {
 
 std::string preProcess(std::string input) {
     std::string newString;
-    for (int x = 0; x < input.length(); x++) {
+    for (int x = 0; (unsigned) x < input.length(); x++) {
 
         if(input[x] == 'e') {
             std::string prev = input.substr(0, x);
@@ -341,3 +384,12 @@ std::string preProcess(std::string input) {
     }
     return newString;
 }
+
+//int main(){
+
+//    //TO DO: derivative, sin cos tan, ln
+
+//    cout << processPostfix(shuntingYard(preProcess("3! + 5 + 8")));
+
+//}
+
