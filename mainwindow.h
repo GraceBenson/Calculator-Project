@@ -3,10 +3,13 @@
 
 #include <QMainWindow>
 
-namespace Ui {
+// TODO
+namespace Ui 
+{
 class MainWindow;
 }
 
+// mainWindow class will declare all methods and variables for the GUI
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -23,5 +26,4 @@ private slots:
     void on_clearbutton_released();
     void on_equals_released();
 };
-
 #endif // MAINWINDOW_H
