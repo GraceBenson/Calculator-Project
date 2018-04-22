@@ -1,4 +1,3 @@
-
 #ifndef COP3503PROJECT_H
 #define COP3503PROJECT_H
 
@@ -9,34 +8,41 @@
 #include <stack>
 #include <vector>
 
+// method declarations for program
+int factorial(int);
 std::string processPostfix(std::string);
 std::string shuntingYard(std::string);
 std::string preProcess(std::string);
-int factorial(int);
 std::string compute(std::string, char);
 std::string computeSingleNum(std::string, char);
 
+// class Stack will declare all methods and variables for creating a stack
 class Stack {
+   
     private:
         //define vector to form basis of stack;
         std::vector<std::string> array;
+    
     public:
-        Stack();
         //constructor
-        void push(std::string input);
+        Stack();
+    
         //push string to stack
-        std::string pop();
+        void push(std::string input);
+        
         //pop string off stack
-        std::string peek();
+        std::string pop();
+        
         //peek at stack contents
-        bool contains(std::string s);
+        std::string peek();
+        
         //contains a string s
-        std::string print();
+        bool contains(std::string s);
+        
         //prints contents
-        bool isEmpty();
+        std::string print();
+        
         //returns false if array contains at least one element
-
+        bool isEmpty();
 };
-
-
 #endif // COP3503PROJECT_H
