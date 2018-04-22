@@ -14,17 +14,17 @@
 
 using namespace std;
 
-
 QString labelNumber;
 string str;
 
+// TODO
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     setStyleSheet("MainWindow {background-image: url(:/blank.png);}");
-
+    // TODO
      connect(ui->zero, SIGNAL(released()), this, SLOT(digit_pressed()));
      connect(ui->button1, SIGNAL(released()), this, SLOT(digit_pressed()));
      connect(ui->button2, SIGNAL(released()), this, SLOT(digit_pressed()));
@@ -61,26 +61,32 @@ MainWindow::MainWindow(QWidget *parent) :
      ui->equals->setCheckable(true);
 }
 
+// TODO
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
+// TODO
 void MainWindow::digit_pressed()
 {
     QPushButton * button = (QPushButton*)sender();
-    if(ui->label->text() == "0"){
+    if(ui->label->text() == "0")
+    {
         ui->equals->setChecked(false);
         labelNumber = button->text();
-        if(button->text() == "!"){
+        if(button->text() == "!")
+        {
             labelNumber= ui->label->text() + button->text();
         }
     }
-    else if(ui->equals->isChecked() && ui->label->text() != "0"){
+    else if(ui->equals->isChecked() && ui->label->text() != "0")
+    {
         labelNumber = button->text();
         ui->equals->setChecked(false);
     }
-    else{
+    else
+    {
         labelNumber= ui->label->text() + button->text();
     }
 //    if(ui->pushButton_add->isChecked() || ui->pushButton_minus->isChecked()
@@ -103,81 +109,98 @@ void MainWindow::on_clearbutton_released()
 
 }
 
-void MainWindow::on_equals_released(){
+void MainWindow::on_equals_released()
+{
 
     str = labelNumber.toStdString();
 
-    try{
+    try
+    {
         str = processPostfix(shuntingYard(preProcess(str)));
     }
-    catch(std::exception){
+    catch(std::exception)
+    {
         str = "Error";
     }
 
     labelNumber = QString::fromStdString(str);
     ui->label->setText(labelNumber);
-
 }
 
-Stack::Stack(){
+// Stack initialize
+Stack::Stack()
+{
     //initialize empty array
     array = {};
 }
 
-void Stack::push(std::string input) {
-    //push value onto stack
+// push method - pushes value back onto stack
+void Stack::push(std::string input) 
+{
     array.push_back(input);
 }
 
-std::string Stack::pop() {
-    //pops the top value off the stock
+// pop method - pops top value off the stack
+std::string Stack::pop() 
+{
     std::string container;
     container = array.back();
     array.pop_back();
     return container;
 }
 
-std::string Stack::peek() {
-    //returns the top value of the stack without removing it
-    if(isEmpty()) {
+// peek method - returns the top value of the stack without removing it
+std::string Stack::peek() 
+{
+    if(isEmpty()) 
+    {
         return "";
     }
     return array.back();
 }
 
-bool Stack::contains(std::string s) {
-    //returns true if the stack contains a certain value s
-    for (std::string &value : array) {
-        if (value == s) {
+// contains method - returns true if the stack contains a certain value s
+bool Stack::contains(std::string s) 
+{
+    for (std::string &value : array) 
+    {
+        if (value == s) 
+        {
             return true;
         }
     }
     return false;
 }
 
-std::string Stack::print() {
-    //prints out contents of stack
+// print method - prints out contents of stack
+std::string Stack::print() 
+{
     std::string ans = "";
-    for (std::string s : array) {
-        std::cout << s << " "; //comment out later
+    for (std::string s : array) 
+    {
+        std::cout << s << " "; //add a space in between outputs
         ans += (s + " ");
     }
     std::cout << "\n"; //comment out later
     return ans;
 }
 
-bool Stack::isEmpty() {
-    //returns true if stack is empty
-    if (array.empty()) {
+// isEmpty method - returns true if stack is empty
+bool Stack::isEmpty() 
+{
+    if (array.empty()) 
+    {
         return true;
     }
-    else {
+    else 
+    {
         return false;
     }
 }
 
-//computes the given numbers using the given operation
-std::string compute(std::vector<std::string> singleOperation, char operation){
+//compute method - computes the given numbers using the given operation
+std::string compute(std::vector<std::string> singleOperation, char operation)
+{
     double x = 0.0;
     double y = 0.0;
     double ans = 0.0;
@@ -187,60 +210,68 @@ std::string compute(std::vector<std::string> singleOperation, char operation){
     y = std::stod (singleOperation.at(1));
 
     //std::cout << singleOperation.at(0) << " " << operation << " " << singleOperation.at(1) <<   std::endl;
+    
+    // switch statement for operators, uses precedence to decide which to use first
     switch(operation)
     {
-        case ('^'): {
+        case ('^'): 
+            {
             ans = pow (y, x);
             break;
-        }
-        case ('*'): {
+            }
+        case ('*'): 
+            {
             ans = (x * y);
             break;
-        }
+            }
 
-        case ('/') : {
+        case ('/') : 
+            {
             ans = (y / x);
             break;
-        }
+            }
 
-        case ('+'):  {
+        case ('+'):  
+            {
             ans = (x + y);
             break;
-        }
+            }
 
-        case ('-'): {
+        case ('-'): 
+            {
             ans = (y - x);
             break;
-        }
+            }
         case ('%'):
-        {
+            {
             //casts doubles as ints and computes
             //results in loss of data, but users are expected to enter ints when computing
             int a = x;
             int b = y;
             ans = a % b;
             break;
-        }
+            }
         default:
             break;
-
     }
     //std::cout << "ans = " << ans << std::endl;
-
     return std::to_string(ans);
-
 }
 
+// factorial method - calculates factorial of any number
 int factorial(int x)
 {
-    if (x == 0 || x == 1)
+    if (x == 0 || x == 1) // base cases
     {
         return 1;
     }
     else
+    {
         return (x * factorial(x - 1));
+    }
 }
 
+// computeSingleNum method - takes input
 std::string computeSingleNum(std::vector<std::string> singleOperation, char operation)
 {
     double x = 0.0;
@@ -250,28 +281,32 @@ std::string computeSingleNum(std::vector<std::string> singleOperation, char oper
     x = std::stod (singleOperation.at(0), &sz);
     switch(operation)
     {
-        case ('s'): {
+        case ('s'): 
+            {
             //sin
             ans = sin (x);
             break;
-        }
-        case ('c'): {
+            }
+        case ('c'): 
+            {
             //cos
             ans = cos (x);
             break;
-        }
-        case ('t'): {
+            }
+        case ('t'): 
+            {
             //tan
             ans = tan (x);
             break;
-        }
-        case ('n'): {
+            }
+        case ('n'): 
+            {
             //natural log
             ans = log (x);
             break;
-        }
+            }
         case ('!') :
-        {
+            {
             //factorial
             int a = x;
             if (a < 0)
@@ -281,11 +316,11 @@ std::string computeSingleNum(std::vector<std::string> singleOperation, char oper
             else if (a < 13)
             {
                 ans = factorial(a);
-            } else
+            } 
+            else
             {
                 //handle big factorials
                 std::cout << "The number is too large to be computed" << std::endl;
-
             }
             break;
         }
@@ -364,10 +399,9 @@ std::string processPostfix (std::string postfix)
     return singleOperationAnswer;
 }
 
-
-
-std::string shuntingYard(std::string input) {
-
+// Shunting yard function that takes input and uses algorithm to change input into postfix notation
+std::string shuntingYard(std::string input) 
+{
     Stack * output = new Stack();
     Stack * operators = new Stack();
 
@@ -388,35 +422,36 @@ std::string shuntingYard(std::string input) {
     int openParenCount = 0;
     int closeParenCount = 0;
 
-    for (int i = 0; i < input.length(); i++) {
+    for (int i = 0; i < input.length(); i++) 
+    {
 
-
-        if (input[i] == '(') {
+        if (input[i] == '(') 
+        {
             openParenCount++;
         }
-        if (input[i] == ')') {
+        if (input[i] == ')') 
+        {
             closeParenCount++;
         }
-
     }
 
-    if (openParenCount != closeParenCount) {
+    if (openParenCount != closeParenCount) 
+    {
        throw std::exception();
     }
 
-
     int index = 0;
-    for (int x = 0; x < input.length(); x++) {
-
-
+    for (int x = 0; x < input.length(); x++) 
+    {
         //extract digits
-        if (isdigit(input[x]) || input[x] == '~') {
+        if (isdigit(input[x]) || input[x] == '~') 
+        {
             index = x++;
 
-            while (isdigit(input[x]) || input[x] == '.') {
+            while (isdigit(input[x]) || input[x] == '.') 
+            {
                 x++;
             }
-
             output->push(input.substr(index, x - index));
         }
 
@@ -425,46 +460,56 @@ std::string shuntingYard(std::string input) {
         //list of operators for find method
 
         //extract operators
-        if (find(begin(operatorList), end(operatorList), input.substr(x, 1)) != end(operatorList)) {
+        if (find(begin(operatorList), end(operatorList), input.substr(x, 1)) != end(operatorList)) 
+        {
             string op = input.substr(x, 1);
-            while (((precedence[operators->peek()] > precedence[op]) || (operators->peek() == "^")) && operators->peek() != "(" && op != "(") {
+            while (((precedence[operators->peek()] > precedence[op]) || (operators->peek() == "^")) && operators->peek() != "(" && op != "(") 
+            {
                 output->push(operators->pop());
             }
-            if(op != ")") {
+            if(op != ")") 
+            {
                 operators->push(op);
             }
-            else {
-                while(operators->peek() != "(") {
+            else 
+            {
+                while(operators->peek() != "(") 
+                {
                     output->push(operators->pop());
                 }
                 operators->pop();
             }
-
         }
-
     }
-    while(!operators->isEmpty()) {
+    while(!operators->isEmpty()) 
+    {
         output->push(operators->pop());
     }
     return output->print();
 }
 
-std::string preProcess(std::string input) {
+// preProcess method
+std::string preProcess(std::string input) 
+{
     std::string newString = input;
   int digitNum = 0;
     int digitStart = 0;
-    for (int x = 0; x < input.length(); x++) {
+    for (int x = 0; x < input.length(); x++) 
+    {
 
-        if(input[x] == 'e') {
+        if(input[x] == 'e') 
+        {
             std::string prev = input.substr(0, x);
             std::string after = input.substr(x + 1);
             newString = prev + "2.71828" + after;
-        } else if(input[x] == 'p' && input[x + 1] == 'i')
+        } 
+        else if(input[x] == 'p' && input[x + 1] == 'i')
         {
             std::string prev = input.substr(0, x);
             std::string after = input.substr(x + 2);
             newString = prev + "3.14159" + after;
-        }else if (input[x] == 'q'){
+        }
+        else if (input[x] == 'q'){
             std::string prev = input.substr(0, x);
             for (int i = x + 1; i < input.length(); i++)
             {
@@ -483,7 +528,8 @@ std::string preProcess(std::string input) {
             }
             newString = prev;
             newString += input.substr(digitStart, digitNum) + " ^ 0.5 " + input.substr(digitStart + digitNum);
-        } else if(input[x] == 'l') { //n for natural log, l for common
+        } 
+        else if(input[x] == 'l') { //n for natural log, l for common
             int end = x;
             std::string digit;
             std::string prev = input.substr(0, x);
@@ -492,10 +538,12 @@ std::string preProcess(std::string input) {
                 x++;
             }
 
-            if (isdigit(input[x + 1])) {
+            if (isdigit(input[x + 1])) 
+            {
                 end = x++;
 
-                while (isdigit(input[x]) || input[x] == '.') {
+                while (isdigit(input[x]) || input[x] == '.') 
+                {
                     x++;
                 }
                 digit = input.substr(end + 1, x - end - 1);
@@ -503,7 +551,6 @@ std::string preProcess(std::string input) {
             std::string after = input.substr(x);
             newString = prev + "((n" + digit + ")/(n10))" + after;
         }
-
     }
     return newString;
 }
