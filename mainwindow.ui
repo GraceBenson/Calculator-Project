@@ -561,7 +561,7 @@ background-repeat: none;
 }</string>
     </property>
     <property name="text">
-     <string>ln(</string>
+     <string>n</string>
     </property>
    </widget>
    <widget class="QPushButton" name="log">
@@ -592,7 +592,7 @@ background-repeat: none;
 }</string>
     </property>
     <property name="text">
-     <string>log(</string>
+     <string>l</string>
     </property>
    </widget>
    <widget class="QPushButton" name="modulo">
@@ -1270,4 +1270,3 @@ background-repeat: none;
  <resources/>
  <connections/>
 </ui>
- 
