@@ -16,7 +16,7 @@ using namespace std;
 
 
 QString labelNumber;
-std::string str;
+string str;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -56,6 +56,9 @@ MainWindow::MainWindow(QWidget *parent) :
      connect(ui->factorial, SIGNAL(released()), this, SLOT(digit_pressed()));
      connect(ui->exponent, SIGNAL(released()), this, SLOT(digit_pressed()));
      connect(ui->question, SIGNAL(released()), this, SLOT(digit_pressed()));
+     connect(ui->modulo, SIGNAL(released()), this, SLOT(digit_pressed()));
+
+     ui->equals->setCheckable(true);
 }
 
 MainWindow::~MainWindow()
@@ -67,7 +70,15 @@ void MainWindow::digit_pressed()
 {
     QPushButton * button = (QPushButton*)sender();
     if(ui->label->text() == "0"){
+        ui->equals->setChecked(false);
         labelNumber = button->text();
+        if(button->text() == "!"){
+            labelNumber= ui->label->text() + button->text();
+        }
+    }
+    else if(ui->equals->isChecked() && ui->label->text() != "0"){
+        labelNumber = button->text();
+        ui->equals->setChecked(false);
     }
     else{
         labelNumber= ui->label->text() + button->text();
@@ -93,14 +104,15 @@ void MainWindow::on_clearbutton_released()
 }
 
 void MainWindow::on_equals_released(){
-//    QMessageBox::information(
-//                this,
-//                tr("Application name"),
-//                tr(labelNumber.toLocal8Bit().constData())
-//                );
+
     str = labelNumber.toStdString();
 
-    str = processPostfix(shuntingYard(preProcess(str)));
+    try{
+        str = processPostfix(shuntingYard(preProcess(str)));
+    }
+    catch(std::exception){
+        str = "Error";
+    }
 
     labelNumber = QString::fromStdString(str);
     ui->label->setText(labelNumber);
@@ -219,6 +231,16 @@ std::string compute(std::vector<std::string> singleOperation, char operation){
 
 }
 
+int factorial(int x)
+{
+    if (x == 0 || x == 1)
+    {
+        return 1;
+    }
+    else
+        return (x * factorial(x - 1));
+}
+
 std::string computeSingleNum(std::vector<std::string> singleOperation, char operation)
 {
     double x = 0.0;
@@ -273,16 +295,6 @@ std::string computeSingleNum(std::vector<std::string> singleOperation, char oper
     return std::to_string(ans);
 }
 
-int factorial(int x)
-{
-    if (x == 0 || x == 1)
-    {
-        return 1;
-    }
-    else
-        return (x * factorial(x - 1));
-}
-
 std::string processPostfix (std::string postfix)
 {
     Stack * numbers = new Stack();
@@ -314,7 +326,7 @@ std::string processPostfix (std::string postfix)
         //check for operators
         //if the next element is not a space or a digit, then it is an operator. Should stop numbers here.
         else if (postfix.at(i) == '+' || postfix.at(i) == '-' || postfix.at(i) == '*' || postfix.at(i) == '/'
-                 || postfix.at(i) == '^' || postfix.at(i) == '%' || postfix.at(i) == '!')
+                 || postfix.at(i) == '^' || postfix.at(i) == '%' )
         {
             singleOperation.push_back(numbers->peek());
             //std::cout << "top of numbers: " << numbers.top() << std::endl;
@@ -328,7 +340,7 @@ std::string processPostfix (std::string postfix)
             numbers->push(singleOperationAnswer);
             singleOperation.clear();
         }
-      else if (postfix.at(i) == 's' || postfix.at(i) == 'c'|| postfix.at(i) == 't' || postfix.at(i) == 'n')
+      else if (postfix.at(i) == 's' || postfix.at(i) == 'c'|| postfix.at(i) == 't' || postfix.at(i) == 'n' || postfix.at(i) == '!')
        {
            // sin cos tan natural log
            singleOperation.push_back(numbers->peek());
@@ -372,6 +384,25 @@ std::string shuntingYard(std::string input) {
     precedence["/"] = 2;
     precedence["+"] = 1;
     precedence["-"] = 1;
+
+    int openParenCount = 0;
+    int closeParenCount = 0;
+
+    for (int i = 0; i < input.length(); i++) {
+
+
+        if (input[i] == '(') {
+            openParenCount++;
+        }
+        if (input[i] == ')') {
+            closeParenCount++;
+        }
+
+    }
+
+    if (openParenCount != closeParenCount) {
+       throw std::exception();
+    }
 
 
     int index = 0;
@@ -419,7 +450,9 @@ std::string shuntingYard(std::string input) {
 }
 
 std::string preProcess(std::string input) {
-    std::string newString;
+    std::string newString = input;
+  int digitNum = 0;
+    int digitStart = 0;
     for (int x = 0; x < input.length(); x++) {
 
         if(input[x] == 'e') {
@@ -431,11 +464,33 @@ std::string preProcess(std::string input) {
             std::string prev = input.substr(0, x);
             std::string after = input.substr(x + 2);
             newString = prev + "3.14159" + after;
+        }else if (input[x] == 'q'){
+            std::string prev = input.substr(0, x);
+            for (int i = x + 1; i < input.length(); i++)
+            {
+                if (isdigit(input[i]))
+                {
+                    if (digitNum == 0)
+                    {
+                        digitStart = i;
+                    }
+                    digitNum++;
+                }
+                if (digitNum > 0 && input[x] == ' ')
+                {
+                    break;
+                }
+            }
+            newString = prev;
+            newString += input.substr(digitStart, digitNum) + " ^ 0.5 " + input.substr(digitStart + digitNum);
         } else if(input[x] == 'l') { //n for natural log, l for common
             int end = x;
             std::string digit;
             std::string prev = input.substr(0, x);
-
+            if (input[x + 1] == ' ')
+            {
+                x++;
+            }
 
             if (isdigit(input[x + 1])) {
                 end = x++;
@@ -447,8 +502,6 @@ std::string preProcess(std::string input) {
             }
             std::string after = input.substr(x);
             newString = prev + "((n" + digit + ")/(n10))" + after;
-        } else {
-            return input;
         }
 
     }

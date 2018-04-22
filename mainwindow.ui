@@ -840,7 +840,7 @@ background-repeat: none;
 }</string>
     </property>
     <property name="text">
-     <string>sqrt(</string>
+     <string>q</string>
     </property>
    </widget>
    <widget class="QPushButton" name="plus">
