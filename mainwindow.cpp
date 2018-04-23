@@ -174,7 +174,6 @@ std::string compute(std::vector<std::string> singleOperation, char operation){
     x = std::stod (singleOperation.at(0), &sz);
     y = std::stod (singleOperation.at(1));
 
-    //std::cout << singleOperation.at(0) << " " << operation << " " << singleOperation.at(1) <<   std::endl;
     switch(operation)
     {
         case ('^'): {
@@ -211,12 +210,8 @@ std::string compute(std::vector<std::string> singleOperation, char operation){
         }
         default:
             break;
-
     }
-    //std::cout << "ans = " << ans << std::endl;
-
     return std::to_string(ans);
-
 }
 
 std::string computeSingleNum(std::vector<std::string> singleOperation, char operation)
