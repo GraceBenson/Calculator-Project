@@ -101,13 +101,13 @@ void MainWindow::on_equals_released()
 {
     str = labelNumber.toStdString();
 
-    if (str.find('d') != 0) 
+    if (str.find('d') != std::string::npos) 
     {
         str = str.substr(6);
         cout << str;
         str = derive(str);
     }
-    else if (str.find('a') != 0) 
+    else if (str.find('a') != std::string::npos) 
     {
         str = integrate(str);
     }
