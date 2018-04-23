@@ -795,8 +795,6 @@ std::string derive (std::string stringInput)
     //std::cout << "Vector input: " << std::endl;
     for (int j = vectorInput.size() - 1; j >= 0;  j--)
     {
-        //std::cout << "vector input at " << j << ": " << vectorInput[j] << std::endl;
-        //std::cout << vectorInput[j] << std::endl;
         modTest = j % 6;
         switch (modTest)
         {
