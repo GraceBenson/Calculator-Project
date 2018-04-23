@@ -76,7 +76,5 @@
         <file>blank.png</file>
         <file>onbutton.png</file>
         <file>onpressed.png</file>
-        <file>integral.png</file>
-        <file>integralpressed.png</file>
     </qresource>
 </RCC>

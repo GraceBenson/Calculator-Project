@@ -13,10 +13,6 @@ std::string processPostfix(std::string);
 std::string shuntingYard(std::string);
 std::string preProcess(std::string);
 int factorial(int);
-std::string derive (std::string);
-std::string integrate (std::string);
-std::string compute(std::string, char);
-std::string computeSingleNum(std::string, char);
 
 class Stack {
     private:
