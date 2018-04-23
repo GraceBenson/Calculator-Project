@@ -576,7 +576,7 @@ bool isOperator(char a)
     }
 }
 
-// fixSpacing method - fix spaces so input is uniformally formatted
+// fixSpacing method - add spaces to the given string
 std::string fixSpacing (std::string str)
 {
     //Variables
@@ -612,7 +612,7 @@ std::vector<std::string> stringToVector(std::string stringInput)
     int charCount = 0;
     int modTest = 0;
     
-    // check to see if input is space ot character
+    // check to see if input is space or character
     for (int i = 0; i < stringInput.length(); i++)
     {
         if (stringInput.at(i) != ' ')
