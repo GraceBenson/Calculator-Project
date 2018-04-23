@@ -642,9 +642,9 @@ std::vector<std::string> stringToVector(std::string stringInput)
                     vectorInput.insert(vectorInput.begin() + j + 4, "0");
                 }
                 break;
-	        }
+	    }
             case 1:
-	        {
+	    {
                 if (vectorInput[j] != "*") {
                     vectorInput.insert(vectorInput.begin() + j, "*");
                     vectorInput.insert(vectorInput.begin() + j + 1, "x");
@@ -652,7 +652,7 @@ std::vector<std::string> stringToVector(std::string stringInput)
                     vectorInput.insert(vectorInput.begin() + j + 3, "0");
                 }
                 break;
-	         }
+	     }
             case 2:
 	         {
                 //x
@@ -662,7 +662,7 @@ std::vector<std::string> stringToVector(std::string stringInput)
                     vectorInput.insert(vectorInput.begin() + j + 2, "1");
                 }
                 break;
-	        }
+	    }
             case 3:
 	        {
                 //^
@@ -672,17 +672,17 @@ std::vector<std::string> stringToVector(std::string stringInput)
                     vectorInput.insert(vectorInput.begin() + j + 1, "1");
                 }
                 break;
-	        }
+	    }
             case 4:
-	        {
+	    {
                 //exponent
                 break;
-	        }
+	    }
             case 5:
-	        {
+	    {
                 //+ or -
                 break;
-	         }
+	    }
             default:
                 std::cout << "something happened" << std::endl;
                 break;
