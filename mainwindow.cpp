@@ -99,6 +99,7 @@ void MainWindow::on_clearbutton_released()
 
 void MainWindow::on_equals_released()
 {
+  try {
     str = labelNumber.toStdString();
 
     if (str.find('d') != std::string::npos) 
@@ -114,11 +115,19 @@ void MainWindow::on_equals_released()
     }
     else
     {
+        if (str.find("x") != std::string::npos) {
+            throw std::exception();
+        }
+
         str = processPostfix(shuntingYard(preProcess(str)));
     }
 
     labelNumber = QString::fromStdString(str);
     ui->label->setText(labelNumber);
+    }
+    catch (exception e) {
+        ui->label->setText("ERROR");
+    }
 }
 
 // Stack constructor - initialize empty array
@@ -407,7 +416,8 @@ std::string shuntingYard(std::string input)
 
     int openParenCount = 0;
     int closeParenCount = 0;
-
+     std::string operatorList[] = {"-", "/", "*", "+", "%", "(", ")", "^", "s", "c", "t", "!", "n"};
+    std::string operatorList2[] = {"-", "/", "*", "+", "%", "^", "s", "c", "t", "!", "n"};
     // counts parenthesis
     for (int i = 0; i < input.length(); i++) 
     {
@@ -419,6 +429,13 @@ std::string shuntingYard(std::string input)
         {
             closeParenCount++;
         }
+
+
+        if (find(begin(operatorList2), end(operatorList2), input.substr(i, 1)) != end(operatorList2) && find(begin(operatorList2), end(operatorList2), input.substr(i + 1, 1)) != end(operatorList2))
+                {
+                     throw std::exception();
+                }
+
     }
 
     // if parenthesis do not match then throw exception
@@ -442,7 +459,7 @@ std::string shuntingYard(std::string input)
         }
 
         //handle operators
-        std::string operatorList[] = {"-", "/", "*", "+", "%", "(", ")", "^", "s", "c", "t", "!", "n"};
+
 
         //extract operators
         if (find(begin(operatorList), end(operatorList), input.substr(x, 1)) != end(operatorList)) 
