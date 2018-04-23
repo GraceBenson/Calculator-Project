@@ -7,13 +7,15 @@
 #include <string>
 #include <vector>
 #include <iterator>
+#include <algorithm>
 #include <map>
 #include <math.h>
 #include <stack>
+#include <string>
+#include <exception>
 #include "COP3503-Project.h"
 
 using namespace std;
-
 
 QString labelNumber;
 string str;
@@ -25,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     setStyleSheet("MainWindow {background-image: url(:/blank.png);}");
 
+    //Makes each button reactive and able to be pressed
      connect(ui->zero, SIGNAL(released()), this, SLOT(digit_pressed()));
      connect(ui->button1, SIGNAL(released()), this, SLOT(digit_pressed()));
      connect(ui->button2, SIGNAL(released()), this, SLOT(digit_pressed()));
@@ -57,18 +60,22 @@ MainWindow::MainWindow(QWidget *parent) :
      connect(ui->exponent, SIGNAL(released()), this, SLOT(digit_pressed()));
      connect(ui->question, SIGNAL(released()), this, SLOT(digit_pressed()));
      connect(ui->modulo, SIGNAL(released()), this, SLOT(digit_pressed()));
-
+     connect(ui->on, SIGNAL(released()), this, SLOT(digit_pressed()));
      ui->equals->setCheckable(true);
 }
 
+//Clean-up
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
+//Code for when a button is pressed
 void MainWindow::digit_pressed()
 {
     QPushButton * button = (QPushButton*)sender();
+
+
     if(ui->label->text() == "0"){
         ui->equals->setChecked(false);
         labelNumber = button->text();
@@ -107,19 +114,98 @@ void MainWindow::on_equals_released(){
 
     str = labelNumber.toStdString();
 
-    try{
-        str = processPostfix(shuntingYard(preProcess(str)));
-    }
-    catch(std::exception){
-        str = "Error";
-    }
 
-    labelNumber = QString::fromStdString(str);
-    ui->label->setText(labelNumber);
+
+        if (str.find('d') != std::string::npos) {
+
+            for (int i = 0; i < str.length(); i++) {
+
+                try {
+                    if(str[i] == '~') {
+                    throw std::exception();
+                    }
+                    else if(str[i] == 'c') {
+                    throw std::exception();
+                    }
+                    else if(str[i] == 's') {
+                    throw std::exception();
+                    }
+                    else if(str[i] == 't') {
+                    throw std::exception();
+                    }
+                    else if(str[i] == 'l') {
+                    throw std::exception();
+                    }
+                    else if(str[i] == 'n') {
+                    throw std::exception();
+                    }
+                }
+                catch (exception e) {
+                    str = "error";
+                    labelNumber = QString::fromStdString(str);
+                    ui->label->setText(labelNumber);
+                            }
+            }
+
+            if (str != "error") {
+                str = str.substr(6);
+                cout << str;
+                str = derive(str);
+            }
+
+        }
+
+        else if (str.find('a') != std::string::npos) {
+
+            for (int i = 0; i < str.length(); i++) {
+
+                try {
+                    if(str[i] == '~') {
+                    throw std::exception();
+                    }
+                    else if(str[i] == 'c') {
+                    throw std::exception();
+                    }
+                    else if(str[i] == 's') {
+                    throw std::exception();
+                    }
+                    else if(str[i] == 't') {
+                    throw std::exception();
+                    }
+                    else if(str[i] == 'l') {
+                    throw std::exception();
+                    }
+                    else if(str[i] == 'n') {
+                    throw std::exception();
+                    }
+                }
+                catch (exception e) {
+                    str = "error";
+                    labelNumber = QString::fromStdString(str);
+                    ui->label->setText(labelNumber);
+                            }
+            }
+
+            if (str != "error") {
+                str = str.substr(6);
+                str = integrate(str);
+            }
+
+        }
+
+        else{
+            str = processPostfix(shuntingYard(preProcess(str)));
+        }
+
+        labelNumber = QString::fromStdString(str);
+        ui->label->setText(labelNumber);
+
+
+
 
 }
 
-Stack::Stack(){
+Stack::Stack() {
     //initialize empty array
     array = {};
 }
@@ -450,8 +536,9 @@ std::string shuntingYard(std::string input) {
 }
 
 std::string preProcess(std::string input) {
+    std::cout << "got to preProcess" <<std::endl;
     std::string newString = input;
-  int digitNum = 0;
+    int digitNum = 0;
     int digitStart = 0;
     for (int x = 0; x < input.length(); x++) {
 
@@ -464,7 +551,8 @@ std::string preProcess(std::string input) {
             std::string prev = input.substr(0, x);
             std::string after = input.substr(x + 2);
             newString = prev + "3.14159" + after;
-        }else if (input[x] == 'q'){
+        }
+        else if (input[x] == 'q'){
             std::string prev = input.substr(0, x);
             for (int i = x + 1; i < input.length(); i++)
             {
@@ -483,15 +571,22 @@ std::string preProcess(std::string input) {
             }
             newString = prev;
             newString += input.substr(digitStart, digitNum) + " ^ 0.5 " + input.substr(digitStart + digitNum);
-        } else if(input[x] == 'l') { //n for natural log, l for common
+            cout << "q test: " << newString << endl;
+        }
+        else if(input[x] == 'l') { //n for natural log, l for common
             int end = x;
             std::string digit;
             std::string prev = input.substr(0, x);
+
             if (input[x + 1] == ' ')
             {
                 x++;
             }
-
+            if (input[x + 1] == '(')
+            {
+                prev += "(";
+                x++;
+            }
             if (isdigit(input[x + 1])) {
                 end = x++;
 
@@ -499,11 +594,517 @@ std::string preProcess(std::string input) {
                     x++;
                 }
                 digit = input.substr(end + 1, x - end - 1);
+                cout << "digit is " << digit << endl;
             }
             std::string after = input.substr(x);
-            newString = prev + "((n" + digit + ")/(n10))" + after;
+            newString = prev + "n " + digit + " / n 10" + after;
+            std::cout << "newString test: " << newString << std::endl;
         }
+        else if (x == 1 && input[x] == 'd')
+        {
+            //send to derive
+            newString = input.substr(6);
+            //send newString
+        }
+        else if (x == 1 && input[x] == 'a')
+        {
+            //send to integrate
+            newString = input.substr(6);
+            //send newString
 
+        }
     }
     return newString;
 }
+<<<<<<< HEAD
+=======
+
+//checks if the character a is an operator
+bool isOperator(char a)
+{
+    if(a == '*' || a == '/' || a == '*' || a == '(' || a == ')' || a == '+' || a == '-' || a == '^')
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+//adds spaces to the given string
+std::string fixSpacing (std::string str)
+{
+    //Variables
+    std::string s;
+    //an intermediary string used to hold str without spaces.
+    s = str;
+    s += " ";
+    //str is converted to not have spaces to it is easier to parse through it.
+    std::string ans = "";
+    //ans is the string that will eventually be returned. It is added to throughout the method.
+
+    for(int i = 0; i < s.length() - 1; i ++)
+    {
+        ans += s.substr(i,1);
+
+        //AN: this additional loop is needed to make sure that digits of a single number are not separated during
+        //this process. A space should only be added after all of the digits have been found and added.
+        while(!isOperator(s.at(i)) && isdigit(s.at(i + 1)))
+        {
+            i++;
+            //counter is incremented inside so that the counter does repeat through the digits it is finding and adding
+            ans += s.substr(i,1);
+        }
+        ans += " ";
+    }
+    return ans;
+}
+
+//converting string to vector for easy use
+std::vector<std::string> stringToVector(std::string stringInput)
+{
+    stringInput = fixSpacing(stringInput);
+    std::vector<std::string> vectorInput;
+    int charCount = 0;
+    int modTest = 0;
+
+    for (int i = 0; i < stringInput.length(); i++)
+    {
+        if (stringInput.at(i) != ' ')
+        {
+            charCount++;
+        }
+        else
+        {
+            vectorInput.push_back(stringInput.substr(i - charCount, charCount));
+            charCount = 0;
+        }
+    }
+
+    //check to make sure everything is in the right place
+    for (int j = 0; j < vectorInput.size(); j++)
+    {
+        modTest = j % 6;
+        switch (modTest) {
+            case 0:
+
+                if (!isdigit(vectorInput.at(j).at(0)))
+                {
+                    vectorInput.insert(vectorInput.begin() + j, "1");
+                    vectorInput.insert(vectorInput.begin() + j + 1, "*");
+                }
+                if (j + 1 == vectorInput.size())
+                {
+                    vectorInput.insert(vectorInput.begin() + j + 1, "*");
+                    vectorInput.insert(vectorInput.begin() + j + 2, "x");
+                    vectorInput.insert(vectorInput.begin() + j + 3, "^");
+                    vectorInput.insert(vectorInput.begin() + j + 4, "0");
+                }
+                break;
+            case 1:
+                if (vectorInput[j] != "*") {
+                    vectorInput.insert(vectorInput.begin() + j, "*");
+                    vectorInput.insert(vectorInput.begin() + j + 1, "x");
+                    vectorInput.insert(vectorInput.begin() + j + 2, "^");
+                    vectorInput.insert(vectorInput.begin() + j + 3, "0");
+
+                }
+                break;
+            case 2:
+                //x
+                if (j + 1 == vectorInput.size())
+                {
+                    vectorInput.insert(vectorInput.begin() + j + 1, "^");
+                    vectorInput.insert(vectorInput.begin() + j + 2, "1");
+                }
+                break;
+            case 3:
+                //^
+                if (vectorInput[j] != "^") {
+                    //v.insert(v.begin() + i, valueToInsert);
+                    vectorInput.insert(vectorInput.begin() + j, "^");
+                    vectorInput.insert(vectorInput.begin() + j + 1, "1");
+
+                }
+                break;
+            case 4:
+                //exponent
+                break;
+            case 5:
+                //+ or -
+                break;
+            default:
+                std::cout << "something happened" << std::endl;
+                break;
+        }
+    }
+    return vectorInput;
+}
+
+std::string vectorToString (std::vector <std::string> vec) {
+    std::string ans;
+    std::string ans_ = "";
+    std::string temp;
+    //go thru vector
+    for (int i = 0; i < vec.size(); i++) {
+        //if an exponent (thing after ^ is...)
+        temp = vec[i];
+
+        if (temp == "+" || temp == "-") {
+            ans += vec[i];
+        } else if (temp == "^") {
+            if (vec[i + 1] == "-1") {
+                ans += "0";
+            } else if (vec[i + 1] == "1") {
+                ans += vec[i - 3];
+                ans += vec[i - 2];
+                ans += vec[i - 1];
+            } else if (vec[i + 1] == "0") {
+                ans += vec[i - 3];
+            } else {
+
+                ans += vec[i - 3];
+                ans += vec[i - 2];
+                ans += vec[i - 1];
+                ans += vec[i];
+                ans += vec[i + 1];
+            }
+        }
+        //-1 , then don't need entire thing (is 0)
+        //0, then is only constant
+        //1, then is constant * x
+        if (ans.find("0")) {
+            for (int i = 0; i < ans.length(); i++) {
+
+                if (ans.at(i) == '0') {
+
+                    if (i + 1 < ans.length() && (ans.at(i + 1) == '+' || ans.at(i + 1) == '-')) {
+                        continue;
+                    } else if (i - 1 > 0 && (ans.at(i - 1) == '+' || ans.at(i - 1) == '-')) {
+                        ans_ = ans_.substr(0, i - 1);
+                    }
+                } else
+                    ans_ += ans.at(i);
+            }
+
+            if (ans.length() == 0) {
+                ans_ = "0";
+            }
+        } else
+            return ans;
+    }
+}
+
+
+std::string integrate (std::string stringInput)
+{
+    std::vector<std::string> vectorInput;
+    std::string answer;
+    std::string temp;
+    int modTest = 0;
+    double coefficient = 0.0;
+    double exponent = 0.0;
+    std::string::size_type sz;
+
+
+    vectorInput = stringToVector(stringInput);
+    for (int j = vectorInput.size() - 1; j >= 0;  j--)
+    {
+        modTest = j % 6;
+        switch (modTest)
+        {
+            case 0:
+                //coefficient
+                coefficient = std::stod (vectorInput[j], &sz);
+                coefficient /= exponent;
+                temp = std::to_string(coefficient);
+                //erasing trailing zeroes
+                temp.erase(temp.find_last_not_of('0') + 1);
+                //erasing the period if it's the last character
+                if (temp.at(temp.length() - 1) == '.')
+                {
+                    temp.erase(temp.length() - 1, 1);
+                }
+
+                vectorInput[j] = temp;
+                break;
+            case 1:
+                //*
+                break;
+            case 2:
+                //x
+                break;
+            case 3:
+                //^
+                break;
+            case 4:
+                //exponent
+                exponent = std::stod (vectorInput[j], &sz);
+                exponent += 1.0;
+                temp = std::to_string(exponent);
+                //erasing trailing zeroes
+                temp.erase(temp.find_last_not_of('0') + 1);
+                //erasing the period if it's the last character
+                if (temp.at(temp.length() - 1) == '.')
+                {
+                    temp.erase(temp.length() - 1, 1);
+                }
+
+                vectorInput[j] = temp;
+                break;
+            case 5:
+                //+ or -
+                break;
+            default:
+                std::cout << "something happened" << std::endl;
+                break;
+        }
+    }
+
+    //to convert from vector to string
+    answer = vectorToString(vectorInput);
+    return answer;
+}
+
+std::string derive (std::string stringInput)
+{
+    std::vector<std::string> vectorInput;
+    std::string answer;
+    std::string temp;
+    int modTest = 0;
+    double coefficient = 0.0;
+    double exponent = 0.0;
+    std::string::size_type sz;
+
+
+    vectorInput = stringToVector(stringInput);
+    for (int j = vectorInput.size() - 1; j >= 0;  j--)
+    {
+        modTest = j % 6;
+        switch (modTest)
+        {
+            case 0:
+                //coefficient
+                coefficient = std::stod (vectorInput[j], &sz);
+                coefficient *= (exponent + 1.0);
+                temp = std::to_string(coefficient);
+                //erasing trailing zeroes
+                temp.erase(temp.find_last_not_of('0') + 1);
+                //erasing the period if it's the last character
+                if (temp.at(temp.length() - 1) == '.')
+                {
+                    temp.erase(temp.length() - 1, 1);
+                }
+
+                vectorInput[j] = temp;
+                break;
+            case 1:
+                //*
+                break;
+            case 2:
+                //x
+                break;
+            case 3:
+                //^
+                break;
+            case 4:
+                //exponent
+                exponent = std::stod (vectorInput[j], &sz);
+                exponent -= 1.0;
+                temp = std::to_string(exponent);
+                //erasing trailing zeroes
+                temp.erase(temp.find_last_not_of('0') + 1);
+                //erasing the period if it's the last character
+                if (temp.at(temp.length() - 1) == '.')
+                {
+                    temp.erase(temp.length() - 1, 1);
+                }
+
+                vectorInput[j] = temp;
+                break;
+            case 5:
+                //+ or -
+                break;
+            default:
+                break;
+        }
+    }
+
+    //convert from vector to string
+    answer = vectorToString(vectorInput);
+    return answer;
+}
+
+
+
+void MainWindow::on_question_released()
+{
+
+    int caseNumber = rand() % 25 + 1;
+
+    //needed to do switch statements because QMessageBox doesn't work with variable strings
+
+    switch (caseNumber) {
+    case 1:
+            QMessageBox::information(
+                        this,
+                        tr("Helpful Hints"),
+                        tr("The natural logarithm is base e.") );
+            break;
+    case 2:
+        QMessageBox::information(
+                    this,
+                    tr("Helpful Hints"),
+                    tr("The common logarithm is base 10.") );
+            break;
+    case 3:
+        QMessageBox::information(
+                    this,
+                    tr("Helpful Hints"),
+                    tr("The area of a circle is pi times the radius squared.") );
+            break;
+    case 4:
+        QMessageBox::information(
+                    this,
+                    tr("Helpful Hints"),
+                    tr("The area of a triangle is one half the base times the height.") );
+                break;
+    case 5:
+            QMessageBox::information(
+                        this,
+                        tr("Helpful Hints"),
+                        tr("Remember to use PEMDAS!") );
+            break;
+    case 6:
+            QMessageBox::information(
+                        this,
+                        tr("Helpful Hints"),
+                        tr("Decimal numbers can't be used with the modulo operator.") );
+            break;
+    case 7:
+            QMessageBox::information(
+                        this,
+                        tr("Helpful Hints"),
+                        tr("Don't use the negative sign for subtraction!") );
+            break;
+    case 8:
+            QMessageBox::information(
+                        this,
+                        tr("Helpful Hints"),
+                        tr("The integral is the opposite operation of the derivative.") );
+            break;
+    case 9:
+            QMessageBox::information(
+                        this,
+                        tr("Helpful Hints"),
+                        tr("The derivative returns the rate of change of a function at a point.") );
+            break;
+    case 10:
+            QMessageBox::information(
+                        this,
+                        tr("Helpful Hints"),
+                        tr("Math is fun!") );
+            break;
+    case 11:
+            QMessageBox::information(
+                        this,
+                        tr("Helpful Hints"),
+                        tr("The largest number that divides two numbers is the greatest common divisor.") );
+            break;
+    case 12:
+            QMessageBox::information(
+                        this,
+                        tr("Helpful Hints"),
+                        tr("The square of a number is the number multiplied by itself.") );
+            break;
+    case 13:
+            QMessageBox::information(
+                        this,
+                        tr("Helpful Hints"),
+                        tr("The cube of a number is the product of a number and its square.") );
+            break;
+    case 14:
+            QMessageBox::information(
+                        this,
+                        tr("Helpful Hints"),
+                        tr("The natural logarithm of e is 1.") );
+            break;
+    case 15:
+            QMessageBox::information(
+                        this,
+                        tr("Helpful Hints"),
+                        tr("The common logarithm of 10 is 1.") );
+            break;
+    case 16:
+            QMessageBox::information(
+                        this,
+                        tr("Helpful Hints"),
+                        tr("e is equal to 2.71828...") );
+            break;
+    case 17:
+            QMessageBox::information(
+                        this,
+                        tr("Helpful Hints"),
+                        tr("pi is equal to 3.14159...") );
+            break;
+    case 18:
+            QMessageBox::information(
+                        this,
+                        tr("Helpful Hints"),
+                        tr("Press CLEAR or ON to erase the screen.") );
+            break;
+    case 19:
+            QMessageBox::information(
+                        this,
+                        tr("Helpful Hints"),
+                        tr("Keep up the hard work!") );
+            break;
+    case 20:
+            QMessageBox::information(
+                        this,
+                        tr("Helpful Hints"),
+                        tr("X% of Y is Y% of X.") );
+            break;
+    case 21:
+            QMessageBox::information(
+                        this,
+                        tr("Helpful Hints"),
+                        tr("You cannot take the logarithm of a negative number.") );
+            break;
+    case 22:
+            QMessageBox::information(
+                        this,
+                        tr("Helpful Hints"),
+                        tr("You cannot use the factorial operation on a decimal.") );
+            break;
+    case 23:
+            QMessageBox::information(
+                        this,
+                        tr("Helpful Hints"),
+                        tr("Some functions cannot be integrated. Sorry!") );
+            break;
+    case 24:
+            QMessageBox::information(
+                        this,
+                        tr("Helpful Hints"),
+                        tr("The calculator may take a long time to process some operations. Be patient!") );
+            break;
+    case 25:
+            QMessageBox::information(
+                        this,
+                        tr("Helpful Hints"),
+                        tr("The problem with calculus jokes is that they're all derivative") );
+            break;
+    default:
+            QMessageBox::information(
+                        this,
+                        tr("Helpful Hints"),
+                        tr("Oops! This happens sometimes. Please try again.")
+                        );
+    }
+}
+
+
+
+>>>>>>> upstream/master
