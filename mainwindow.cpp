@@ -104,12 +104,13 @@ void MainWindow::on_equals_released()
     if (str.find('d') != std::string::npos) 
     {
         str = str.substr(6);
-        cout << str;
         str = derive(str);
     }
     else if (str.find('a') != std::string::npos) 
     {
+	str = str.substr(6);    
         str = integrate(str);
+	    
     }
     else
     {
