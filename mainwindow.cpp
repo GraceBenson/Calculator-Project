@@ -14,7 +14,6 @@
 
 using namespace std;
 
-
 QString labelNumber;
 string str;
 
@@ -70,30 +69,25 @@ MainWindow::~MainWindow()
 void MainWindow::digit_pressed()
 {
     QPushButton * button = (QPushButton*)sender();
-    if(ui->label->text() == "0"){
+    if(ui->label->text() == "0")
+    {
         ui->equals->setChecked(false);
         labelNumber = button->text();
-        if(button->text() == "!"){
+        if(button->text() == "!")
+        {
             labelNumber= ui->label->text() + button->text();
         }
     }
-    else if(ui->equals->isChecked() && ui->label->text() != "0"){
+    else if(ui->equals->isChecked() && ui->label->text() != "0")
+    {
         labelNumber = button->text();
         ui->equals->setChecked(false);
     }
-    else{
+    else
+    {
         labelNumber= ui->label->text() + button->text();
     }
-//    if(ui->pushButton_add->isChecked() || ui->pushButton_minus->isChecked()
-//            || ui->pushButton_multiply->isChecked() || ui->pushButton_divide->isChecked()
-//            || ui->pushButton_exponent->isChecked())
-//    {
-//        labelNumber = button->text().toDouble();
-//    }
-//    else{
-//        labelNumber = (ui->label->text() + button->text()).toDouble();
-//    }
- //   QString numLabel = QString::number(labelNumber, 'g', 15);
+
     ui->label->setText(labelNumber);
 }
 
@@ -101,46 +95,45 @@ void MainWindow::on_clearbutton_released()
 {
     labelNumber= "0";
     ui->label->setText(labelNumber);
-
 }
 
-void MainWindow::on_equals_released(){
-
+void MainWindow::on_equals_released()
+{
     str = labelNumber.toStdString();
 
-
-    if (str.find('d') != 0) {
+    if (str.find('d') != 0) 
+    {
         str = str.substr(6);
         cout << str;
         str = derive(str);
-
     }
-
-    else if (str.find('a') != 0) {
+    else if (str.find('a') != 0) 
+    {
         str = integrate(str);
     }
-
-    else{
+    else
+    {
         str = processPostfix(shuntingYard(preProcess(str)));
     }
 
-
     labelNumber = QString::fromStdString(str);
     ui->label->setText(labelNumber);
-
 }
 
-Stack::Stack() {
+Stack::Stack() 
+{
     //initialize empty array
     array = {};
 }
 
-void Stack::push(std::string input) {
+void Stack::push(std::string input) 
+{
     //push value onto stack
     array.push_back(input);
 }
 
-std::string Stack::pop() {
+std::string Stack::pop() 
+{
     //pops the top value off the stock
     std::string container;
     container = array.back();
@@ -148,28 +141,35 @@ std::string Stack::pop() {
     return container;
 }
 
-std::string Stack::peek() {
+std::string Stack::peek() 
+{
     //returns the top value of the stack without removing it
-    if(isEmpty()) {
+    if(isEmpty()) 
+    {
         return "";
     }
     return array.back();
 }
 
-bool Stack::contains(std::string s) {
+bool Stack::contains(std::string s) 
+{
     //returns true if the stack contains a certain value s
-    for (std::string &value : array) {
-        if (value == s) {
+    for (std::string &value : array) 
+    {
+        if (value == s) 
+        {
             return true;
         }
     }
     return false;
 }
 
-std::string Stack::print() {
+std::string Stack::print() 
+{
     //prints out contents of stack
     std::string ans = "";
-    for (std::string s : array) {
+    for (std::string s : array) 
+    {
         std::cout << s << " "; //comment out later
         ans += (s + " ");
     }
@@ -177,18 +177,22 @@ std::string Stack::print() {
     return ans;
 }
 
-bool Stack::isEmpty() {
+bool Stack::isEmpty() 
+{
     //returns true if stack is empty
-    if (array.empty()) {
+    if (array.empty()) 
+    {
         return true;
     }
-    else {
+    else 
+    {
         return false;
     }
 }
 
 //computes the given numbers using the given operation
-std::string compute(std::vector<std::string> singleOperation, char operation){
+std::string compute(std::vector<std::string> singleOperation, char operation)
+{
     double x = 0.0;
     double y = 0.0;
     double ans = 0.0;
@@ -200,26 +204,28 @@ std::string compute(std::vector<std::string> singleOperation, char operation){
     //std::cout << singleOperation.at(0) << " " << operation << " " << singleOperation.at(1) <<   std::endl;
     switch(operation)
     {
-        case ('^'): {
+        case ('^'): 
+        {
             ans = pow (y, x);
             break;
         }
-        case ('*'): {
+        case ('*'): 
+        {
             ans = (x * y);
             break;
         }
-
-        case ('/') : {
+        case ('/') : 
+        {
             ans = (y / x);
             break;
         }
-
-        case ('+'):  {
+        case ('+'):  
+        {
             ans = (x + y);
             break;
         }
-
-        case ('-'): {
+        case ('-'): 
+        {
             ans = (y - x);
             break;
         }
@@ -234,12 +240,9 @@ std::string compute(std::vector<std::string> singleOperation, char operation){
         }
         default:
             break;
-
     }
     //std::cout << "ans = " << ans << std::endl;
-
     return std::to_string(ans);
-
 }
 
 int factorial(int x)
@@ -261,22 +264,26 @@ std::string computeSingleNum(std::vector<std::string> singleOperation, char oper
     x = std::stod (singleOperation.at(0), &sz);
     switch(operation)
     {
-        case ('s'): {
+        case ('s'): 
+        {
             //sin
             ans = sin (x);
             break;
         }
-        case ('c'): {
+        case ('c'): 
+        {
             //cos
             ans = cos (x);
             break;
         }
-        case ('t'): {
+        case ('t'): 
+        {
             //tan
             ans = tan (x);
             break;
         }
-        case ('n'): {
+        case ('n'): 
+        {
             //natural log
             ans = log (x);
             break;
@@ -296,7 +303,6 @@ std::string computeSingleNum(std::vector<std::string> singleOperation, char oper
             {
                 //handle big factorials
                 std::cout << "The number is too large to be computed" << std::endl;
-
             }
             break;
         }
@@ -351,15 +357,15 @@ std::string processPostfix (std::string postfix)
             numbers->push(singleOperationAnswer);
             singleOperation.clear();
         }
-      else if (postfix.at(i) == 's' || postfix.at(i) == 'c'|| postfix.at(i) == 't' || postfix.at(i) == 'n' || postfix.at(i) == '!')
-       {
+        else if (postfix.at(i) == 's' || postfix.at(i) == 'c'|| postfix.at(i) == 't' || postfix.at(i) == 'n' || postfix.at(i) == '!')
+         {
            // sin cos tan natural log
            singleOperation.push_back(numbers->peek());
            numbers->pop();
            singleOperationAnswer = computeSingleNum(singleOperation, postfix.at(i));
            numbers->push(singleOperationAnswer);
            singleOperation.clear();
-       }
+        }
         i++;
         //if(!numbers.empty())
         //  std::cout << "stack top: " << numbers.top() << std::endl;
@@ -375,9 +381,8 @@ std::string processPostfix (std::string postfix)
     return singleOperationAnswer;
 }
 
-
-
-std::string shuntingYard(std::string input) {
+std::string shuntingYard(std::string input) 
+{
 
     Stack * output = new Stack();
     Stack * operators = new Stack();
@@ -399,32 +404,35 @@ std::string shuntingYard(std::string input) {
     int openParenCount = 0;
     int closeParenCount = 0;
 
-    for (int i = 0; i < input.length(); i++) {
-
-
-        if (input[i] == '(') {
+    for (int i = 0; i < input.length(); i++) 
+    {
+        if (input[i] == '(') 
+        {
             openParenCount++;
         }
-        if (input[i] == ')') {
+        if (input[i] == ')') 
+        {
             closeParenCount++;
         }
-
     }
 
-    if (openParenCount != closeParenCount) {
+    if (openParenCount != closeParenCount) 
+    {
        throw std::exception();
     }
 
-
     int index = 0;
-    for (int x = 0; x < input.length(); x++) {
+    for (int x = 0; x < input.length(); x++) 
+    {
 
 
         //extract digits
-        if (isdigit(input[x]) || input[x] == '~') {
+        if (isdigit(input[x]) || input[x] == '~') 
+        {
             index = x++;
 
-            while (isdigit(input[x]) || input[x] == '.') {
+            while (isdigit(input[x]) || input[x] == '.') 
+            {
                 x++;
             }
 
@@ -436,48 +444,56 @@ std::string shuntingYard(std::string input) {
         //list of operators for find method
 
         //extract operators
-        if (find(begin(operatorList), end(operatorList), input.substr(x, 1)) != end(operatorList)) {
+        if (find(begin(operatorList), end(operatorList), input.substr(x, 1)) != end(operatorList)) 
+        {
             string op = input.substr(x, 1);
-            while (((precedence[operators->peek()] > precedence[op]) || (operators->peek() == "^")) && operators->peek() != "(" && op != "(") {
+            while (((precedence[operators->peek()] > precedence[op]) || (operators->peek() == "^")) && operators->peek() != "(" && op != "(") 
+            {
                 output->push(operators->pop());
             }
-            if(op != ")") {
+            if(op != ")") 
+            {
                 operators->push(op);
             }
-            else {
-                while(operators->peek() != "(") {
+            else 
+            {
+                while(operators->peek() != "(") 
+                {
                     output->push(operators->pop());
                 }
                 operators->pop();
             }
-
         }
-
     }
-    while(!operators->isEmpty()) {
+    while(!operators->isEmpty()) 
+    {
         output->push(operators->pop());
     }
     return output->print();
 }
 
-std::string preProcess(std::string input) {
+std::string preProcess(std::string input) 
+{
     std::cout << "got to preProcess" <<std::endl;
     std::string newString = input;
     int digitNum = 0;
     int digitStart = 0;
-    for (int x = 0; x < input.length(); x++) {
-
-        if(input[x] == 'e') {
+    for (int x = 0; x < input.length(); x++) 
+    {
+        if(input[x] == 'e') 
+        {
             std::string prev = input.substr(0, x);
             std::string after = input.substr(x + 1);
             newString = prev + "2.71828" + after;
-        } else if(input[x] == 'p' && input[x + 1] == 'i')
+        } 
+        else if(input[x] == 'p' && input[x + 1] == 'i')
         {
             std::string prev = input.substr(0, x);
             std::string after = input.substr(x + 2);
             newString = prev + "3.14159" + after;
         }
-        else if (input[x] == 'q'){
+        else if (input[x] == 'q')
+        {
             std::string prev = input.substr(0, x);
             for (int i = x + 1; i < input.length(); i++)
             {
@@ -498,7 +514,8 @@ std::string preProcess(std::string input) {
             newString += input.substr(digitStart, digitNum) + " ^ 0.5 " + input.substr(digitStart + digitNum);
             cout << "q test: " << newString << endl;
         }
-        else if(input[x] == 'l') { //n for natural log, l for common
+        else if(input[x] == 'l') //n for natural log, l for common
+        { 
             int end = x;
             std::string digit;
             std::string prev = input.substr(0, x);
@@ -512,10 +529,11 @@ std::string preProcess(std::string input) {
                 prev += "(";
                 x++;
             }
-            if (isdigit(input[x + 1])) {
+            if (isdigit(input[x + 1])) 
+            {
                 end = x++;
-
-                while (isdigit(input[x]) || input[x] == '.') {
+                while (isdigit(input[x]) || input[x] == '.') 
+                {
                     x++;
                 }
                 digit = input.substr(end + 1, x - end - 1);
@@ -536,7 +554,6 @@ std::string preProcess(std::string input) {
             //send to integrate
             newString = input.substr(6);
             //send newString
-
         }
     }
     return newString;
@@ -604,7 +621,6 @@ std::vector<std::string> stringToVector(std::string stringInput)
             vectorInput.push_back(stringInput.substr(i - charCount, charCount));
             charCount = 0;
         }
-
     }
 
     //check to make sure everything is in the right place
@@ -614,7 +630,7 @@ std::vector<std::string> stringToVector(std::string stringInput)
         modTest = j % 6;
         switch (modTest) {
             case 0:
-
+            {
                 if (!isdigit(vectorInput.at(j).at(0)))
                 {
                     //v.insert(v.begin() + i, valueToInsert);
@@ -623,15 +639,21 @@ std::vector<std::string> stringToVector(std::string stringInput)
 
                 }
                 break;
+            }
             case 1:
+            {
                 //*
                 //do nothing
                 break;
+            }
             case 2:
+            {
                 //x
                 //do nothing
                 break;
+            }
             case 3:
+            {
                 //^
                 //do nothing
                 if (vectorInput[j] != "^") {
@@ -641,12 +663,17 @@ std::vector<std::string> stringToVector(std::string stringInput)
 
                 }
                 break;
+            }
             case 4:
+            {
                 //exponent
                 break;
+            }
             case 5:
+            {
                 //+ or -
                 break;
+            {
             default:
                 std::cout << "something happened" << std::endl;
                 break;
@@ -673,19 +700,16 @@ std::string vectorToString(std::vector<std::string> vectorAnswer)
 
 }
 
-
 std::string integrate (std::string stringInput)
 {
     std::vector<std::string> vectorInput;
     std::string answer;
     std::string temp;
     int modTest = 0;
-    //
     double coefficient = 0.0;
     double exponent = 0.0;
     std::string::size_type sz;
-
-
+    
     vectorInput = stringToVector(stringInput);
     for (int j = vectorInput.size() - 1; j >= 0;  j--)
     {
@@ -695,6 +719,7 @@ std::string integrate (std::string stringInput)
         switch (modTest)
         {
             case 0:
+            {
                 //coefficienet
                 coefficient = std::stod (vectorInput[j], &sz);
                 coefficient /= exponent;
@@ -709,19 +734,27 @@ std::string integrate (std::string stringInput)
 
                 vectorInput[j] = temp;
                 break;
+            }
             case 1:
+            {
                 //*
                 //do nothing
                 break;
+            }
             case 2:
+            {
                 //x
                 //do nothing
                 break;
+            }
             case 3:
+            {
                 //^
                 //do nothing
                 break;
+            }
             case 4:
+            {
                 //exponent
                 exponent = std::stod (vectorInput[j], &sz);
                 exponent += 1.0;
@@ -733,23 +766,22 @@ std::string integrate (std::string stringInput)
                 {
                     temp.erase(temp.length() - 1, 1);
                 }
-
                 vectorInput[j] = temp;
                 break;
+            }
             case 5:
+            {
                 //+ or -
                 break;
+            }
             default:
                 std::cout << "something happened" << std::endl;
                 break;
         }
     }
-
-
     //to convert from vector to string
     answer = vectorToString(vectorInput);
     return answer;
-
 }
 
 std::string derive (std::string stringInput)
@@ -758,11 +790,9 @@ std::string derive (std::string stringInput)
     std::string answer;
     std::string temp;
     int modTest = 0;
-    //
     double coefficient = 0.0;
     double exponent = 0.0;
     std::string::size_type sz;
-
 
     vectorInput = stringToVector(stringInput);
     //std::cout << "Vector input: " << std::endl;
@@ -774,6 +804,7 @@ std::string derive (std::string stringInput)
         switch (modTest)
         {
             case 0:
+            {
                 //coefficienet
                 coefficient = std::stod (vectorInput[j], &sz);
                 coefficient *= (exponent + 1.0);
@@ -788,19 +819,27 @@ std::string derive (std::string stringInput)
 
                 vectorInput[j] = temp;
                 break;
+            }
             case 1:
+            {
                 //*
                 //do nothing
                 break;
+            }
             case 2:
+            {
                 //x
                 //do nothing
                 break;
+            }
             case 3:
+            {
                 //^
                 //do nothing
                 break;
+            }
             case 4:
+            {
                 //exponent
                 exponent = std::stod (vectorInput[j], &sz);
                 exponent -= 1.0;
@@ -812,192 +851,239 @@ std::string derive (std::string stringInput)
                 {
                     temp.erase(temp.length() - 1, 1);
                 }
-
                 vectorInput[j] = temp;
                 break;
+            }
             case 5:
+            {
                 //+ or -
                 break;
+            }
             default:
                 std::cout << "something happened" << std::endl;
                 break;
         }
     }
-
-
     //to convert from vector to string
     answer = vectorToString(vectorInput);
     return answer;
-
 }
-
 
 void MainWindow::on_question_released()
 {
-
+	// chooses random number for random hint
     int caseNumber = rand() % 25 + 1;
 
     //needed to do switch statements because QMessageBox doesn't work with variable strings
-
-    switch (caseNumber) {
-    case 1:
-            QMessageBox::information(
-                        this,
-                        tr("Helpful Hints"),
-                        tr("The natural logarithm is base e.") );
-            break;
-    case 2:
-        QMessageBox::information(
-                    this,
-                    tr("Helpful Hints"),
-                    tr("The common logarithm is base 10.") );
-            break;
-    case 3:
-        QMessageBox::information(
-                    this,
-                    tr("Helpful Hints"),
-                    tr("The area of a circle is pi times the radius squared.") );
-            break;
-    case 4:
-        QMessageBox::information(
-                    this,
-                    tr("Helpful Hints"),
-                    tr("The area of a triangle is one half the base times the height.") );
+    switch (caseNumber) 
+    {
+        case 1:
+        {
+                QMessageBox::information(
+                            this,
+                            tr("Helpful Hints"),
+                            tr("The natural logarithm is base e.") );
                 break;
-    case 5:
+        }
+        case 2:
+        {
             QMessageBox::information(
                         this,
                         tr("Helpful Hints"),
-                        tr("Remember to use PEMDAS!") );
-            break;
-    case 6:
+                        tr("The common logarithm is base 10.") );
+                break;
+        }
+        case 3:
+        {
             QMessageBox::information(
                         this,
                         tr("Helpful Hints"),
-                        tr("Decimal numbers can't be used with the modulo operator.") );
-            break;
-    case 7:
+                        tr("The area of a circle is pi times the radius squared.") );
+                break;
+        } 
+        case 4:
+        {
             QMessageBox::information(
                         this,
                         tr("Helpful Hints"),
-                        tr("Don't use the negative sign for subtraction!") );
-            break;
-    case 8:
-            QMessageBox::information(
-                        this,
-                        tr("Helpful Hints"),
-                        tr("The integral is the opposite operation of the derivative.") );
-            break;
-    case 9:
-            QMessageBox::information(
-                        this,
-                        tr("Helpful Hints"),
-                        tr("The derivative returns the rate of change of a function at a point.") );
-            break;
-    case 10:
-            QMessageBox::information(
-                        this,
-                        tr("Helpful Hints"),
-                        tr("Math is fun!") );
-            break;
-    case 11:
-            QMessageBox::information(
-                        this,
-                        tr("Helpful Hints"),
-                        tr("The largest number that divides two numbers is the greatest common divisor.") );
-            break;
-    case 12:
-            QMessageBox::information(
-                        this,
-                        tr("Helpful Hints"),
-                        tr("The square of a number is the number multiplied by itself.") );
-            break;
-    case 13:
-            QMessageBox::information(
-                        this,
-                        tr("Helpful Hints"),
-                        tr("The cube of a number is the product of a number and its square.") );
-            break;
-    case 14:
-            QMessageBox::information(
-                        this,
-                        tr("Helpful Hints"),
-                        tr("The natural logarithm of e is 1.") );
-            break;
-    case 15:
-            QMessageBox::information(
-                        this,
-                        tr("Helpful Hints"),
-                        tr("The common logarithm of 10 is 1.") );
-            break;
-    case 16:
-            QMessageBox::information(
-                        this,
-                        tr("Helpful Hints"),
-                        tr("e is equal to 2.71828...") );
-            break;
-    case 17:
-            QMessageBox::information(
-                        this,
-                        tr("Helpful Hints"),
-                        tr("pi is equal to 3.14159...") );
-            break;
-    case 18:
-            QMessageBox::information(
-                        this,
-                        tr("Helpful Hints"),
-                        tr("Press CLEAR or ON to erase the screen.") );
-            break;
-    case 19:
-            QMessageBox::information(
-                        this,
-                        tr("Helpful Hints"),
-                        tr("Keep up the hard work!") );
-            break;
-    case 20:
-            QMessageBox::information(
-                        this,
-                        tr("Helpful Hints"),
-                        tr("X% of Y is Y% of X.") );
-            break;
-    case 21:
-            QMessageBox::information(
-                        this,
-                        tr("Helpful Hints"),
-                        tr("You cannot take the logarithm of a negative number.") );
-            break;
-    case 22:
-            QMessageBox::information(
-                        this,
-                        tr("Helpful Hints"),
-                        tr("You cannot use the factorial operation on a decimal.") );
-            break;
-    case 23:
-            QMessageBox::information(
-                        this,
-                        tr("Helpful Hints"),
-                        tr("Some functions cannot be integrated. Sorry!") );
-            break;
-    case 24:
-            QMessageBox::information(
-                        this,
-                        tr("Helpful Hints"),
-                        tr("The calculator may take a long time to process some operations. Be patient!") );
-            break;
-    case 25:
-            QMessageBox::information(
-                        this,
-                        tr("Helpful Hints"),
-                        tr("The problem with calculus jokes is that they're all derivative") );
-            break;
-    default:
-            QMessageBox::information(
-                        this,
-                        tr("Helpful Hints"),
-                        tr("Oops! This happens sometimes. Please try again.")
-                        );
+                        tr("The area of a triangle is one half the base times the height.") );
+                    break;
+        }
+        case 5:
+        {
+                QMessageBox::information(
+                            this,
+                            tr("Helpful Hints"),
+                            tr("Remember to use PEMDAS!") );
+                break;
+        }
+        case 6:
+        {
+                QMessageBox::information(
+                            this,
+                            tr("Helpful Hints"),
+                            tr("Decimal numbers can't be used with the modulo operator.") );
+                break;
+        }
+        case 7:
+        {
+                QMessageBox::information(
+                            this,
+                            tr("Helpful Hints"),
+                            tr("Don't use the negative sign for subtraction!") );
+                break;
+        }
+        case 8:
+        {
+                QMessageBox::information(
+                            this,
+                            tr("Helpful Hints"),
+                            tr("The integral is the opposite operation of the derivative.") );
+                break;
+        }
+        case 9:
+        {
+                QMessageBox::information(
+                            this,
+                            tr("Helpful Hints"),
+                            tr("The derivative returns the rate of change of a function at a point.") );
+                break;
+        }
+        case 10:
+        {  
+                QMessageBox::information(
+                            this,
+                            tr("Helpful Hints"),
+                            tr("Math is fun!") );
+                break;
+        }
+        case 11:
+        {
+                QMessageBox::information(
+                            this,
+                            tr("Helpful Hints"),
+                            tr("The largest number that divides two numbers is the greatest common divisor.") );
+                break;
+        }
+        case 12:
+        {
+                QMessageBox::information(
+                            this,
+                            tr("Helpful Hints"),
+                            tr("The square of a number is the number multiplied by itself.") );
+                break;
+        }
+        case 13:
+        {
+                QMessageBox::information(
+                            this,
+                            tr("Helpful Hints"),
+                            tr("The cube of a number is the product of a number and its square.") );
+                break;
+        }
+        case 14:
+        {
+                QMessageBox::information(
+                            this,
+                            tr("Helpful Hints"),
+                            tr("The natural logarithm of e is 1.") );
+                break;
+        }
+        case 15:
+        {
+                QMessageBox::information(
+                            this,
+                            tr("Helpful Hints"),
+                            tr("The common logarithm of 10 is 1.") );
+                break;
+        }
+        case 16:
+        {
+                QMessageBox::information(
+                            this,
+                            tr("Helpful Hints"),
+                            tr("e is equal to 2.71828...") );
+                break;
+        }
+        case 17:
+        {
+                QMessageBox::information(
+                            this,
+                            tr("Helpful Hints"),
+                            tr("pi is equal to 3.14159...") );
+                break;
+        }
+        case 18:
+        {
+                QMessageBox::information(
+                            this,
+                            tr("Helpful Hints"),
+                            tr("Press CLEAR or ON to erase the screen.") );
+                break;
+        }
+        case 19:
+        {
+                QMessageBox::information(
+                            this,
+                            tr("Helpful Hints"),
+                            tr("Keep up the hard work!") );
+                break;
+        }
+        case 20:
+        {
+                QMessageBox::information(
+                            this,
+                            tr("Helpful Hints"),
+                            tr("X% of Y is Y% of X.") );
+                break;
+        }
+        case 21:
+        {
+                QMessageBox::information(
+                            this,
+                            tr("Helpful Hints"),
+                            tr("You cannot take the logarithm of a negative number.") );
+                break;
+        }
+        case 22:
+        {
+                QMessageBox::information(
+                            this,
+                            tr("Helpful Hints"),
+                            tr("You cannot use the factorial operation on a decimal.") );
+                break;
+        }
+        case 23:
+        {
+                QMessageBox::information(
+                            this,
+                            tr("Helpful Hints"),
+                            tr("Some functions cannot be integrated. Sorry!") );
+                break;
+        }
+        case 24:
+        {
+                QMessageBox::information(
+                            this,
+                            tr("Helpful Hints"),
+                            tr("The calculator may take a long time to process some operations. Be patient!") );
+                break;
+        }
+        case 25:
+        {
+                QMessageBox::information(
+                            this,
+                            tr("Helpful Hints"),
+                            tr("The problem with calculus jokes is that they're all derivative") );
+                break;
+        }
+        default:
+        {
+                QMessageBox::information(
+                            this,
+                            tr("Helpful Hints"),
+                            tr("Oops! This happens sometimes. Please try again.")
+                            );
+        }
     }
 }
-
-
-
