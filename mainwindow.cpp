@@ -305,7 +305,8 @@ std::string computeSingleNum(std::vector<std::string> singleOperation, char oper
             else if (a < 13)
             {
                 ans = factorial(a);
-            } else
+            } 
+	    else
             {
                 //handle big factorials
                 std::cout << "The number is too large to be computed" << std::endl;
