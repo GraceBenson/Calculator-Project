@@ -731,7 +731,6 @@ std::string vectorToString (std::vector <std::string> vec)
                 ans += vec[i - 1];
                 ans += vec[i];
                 ans += vec[i + 1];
-            }
         }
         //-1 , then don't need entire thing (is 0)
         //0, then is only constant
