@@ -626,7 +626,8 @@ std::vector<std::string> stringToVector(std::string stringInput)
     for (int j = 0; j < vectorInput.size(); j++)
     {
         modTest = j % 6;
-        switch (modTest) {
+        switch (modTest) 
+	{
             case 0:
             {		
                 if (!isdigit(vectorInput.at(j).at(0)))
@@ -645,16 +646,17 @@ std::vector<std::string> stringToVector(std::string stringInput)
 	    }
             case 1:
 	    {
-                if (vectorInput[j] != "*") {
+                if (vectorInput[j] != "*") 
+		{
                     vectorInput.insert(vectorInput.begin() + j, "*");
                     vectorInput.insert(vectorInput.begin() + j + 1, "x");
                     vectorInput.insert(vectorInput.begin() + j + 2, "^");
                     vectorInput.insert(vectorInput.begin() + j + 3, "0");
                 }
                 break;
-	     }
+	    }
             case 2:
-	         {
+	    {
                 //x
                 if (j + 1 == vectorInput.size())
                 {
@@ -664,9 +666,10 @@ std::vector<std::string> stringToVector(std::string stringInput)
                 break;
 	    }
             case 3:
-	        {
+	    {
                 //^
-                if (vectorInput[j] != "^") {
+                if (vectorInput[j] != "^") 
+		{
                     //v.insert(v.begin() + i, valueToInsert);
                     vectorInput.insert(vectorInput.begin() + j, "^");
                     vectorInput.insert(vectorInput.begin() + j + 1, "1");
@@ -692,28 +695,39 @@ std::vector<std::string> stringToVector(std::string stringInput)
 }
 
 //vectorToString method - convert string to vector
-std::string vectorToString (std::vector <std::string> vec) {
+std::string vectorToString (std::vector <std::string> vec) 
+{
     std::string ans;
     std::string ans_ = "";
     std::string temp;
     //go thru vector
-    for (int i = 0; i < vec.size(); i++) {
+    for (int i = 0; i < vec.size(); i++) 
+    {
         //if an exponent (thing after ^ is...)
         temp = vec[i];
 
-        if (temp == "+" || temp == "-") {
+        if (temp == "+" || temp == "-") 
+	{
             ans += vec[i];
-        } else if (temp == "^") {
-            if (vec[i + 1] == "-1") {
+        } 
+	else if (temp == "^") 
+	{
+            if (vec[i + 1] == "-1") 
+	    {
                 ans += "0";
-            } else if (vec[i + 1] == "1") {
+            } 
+	    else if (vec[i + 1] == "1") 
+	    {
                 ans += vec[i - 3];
                 ans += vec[i - 2];
                 ans += vec[i - 1];
-            } else if (vec[i + 1] == "0") {
+            } 
+	    else if (vec[i + 1] == "0") 
+	    {
                 ans += vec[i - 3];
-            } else {
-
+            } 
+	    else 
+	    {
                 ans += vec[i - 3];
                 ans += vec[i - 2];
                 ans += vec[i - 1];
@@ -724,25 +738,35 @@ std::string vectorToString (std::vector <std::string> vec) {
         //-1 , then don't need entire thing (is 0)
         //0, then is only constant
         //1, then is constant * x
-        if (ans.find("0")) {
-            for (int i = 0; i < ans.length(); i++) {
-
-                if (ans.at(i) == '0') {
-
-                    if (i + 1 < ans.length() && (ans.at(i + 1) == '+' || ans.at(i + 1) == '-')) {
+        if (ans.find("0")) 
+	{
+            for (int i = 0; i < ans.length(); i++) 
+	    {
+                if (ans.at(i) == '0') 
+		{
+                    if (i + 1 < ans.length() && (ans.at(i + 1) == '+' || ans.at(i + 1) == '-')) 
+		    {
                         continue;
-                    } else if (i - 1 > 0 && (ans.at(i - 1) == '+' || ans.at(i - 1) == '-')) {
+                    } 
+		    else if (i - 1 > 0 && (ans.at(i - 1) == '+' || ans.at(i - 1) == '-')) 
+		    {
                         ans_ = ans_.substr(0, i - 1);
                     }
-                } else
+                } 
+		else
+		{
                     ans_ += ans.at(i);
+		}
             }
-
-            if (ans.length() == 0) {
+            if (ans.length() == 0) 
+	    {
                 ans_ = "0";
             }
-        } else
+        } 
+	else
+	{
             return ans;
+	}
     }
 }
 
