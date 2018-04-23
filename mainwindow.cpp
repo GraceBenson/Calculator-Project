@@ -241,7 +241,6 @@ std::string compute(std::vector<std::string> singleOperation, char operation)
         default:
             break;
     }
-    //std::cout << "ans = " << ans << std::endl;
     return std::to_string(ans);
 }
 
@@ -254,8 +253,10 @@ int factorial(int x)
         return 1;
     }
     // all other cases
-    else
+    else 
+    {
         return (x * factorial(x - 1));
+    }
 }
 
 // computeSingleNum method - chooses and calculates which function to use
@@ -342,7 +343,6 @@ std::string processPostfix (std::string postfix)
         {
             //push the number onto the numbers stack
             numbers->push(postfix.substr(i - digitLength, digitLength));
-            //std::cout << numbers.top() << std::endl;
             digitLength = 0;
         }
         //check for operators
@@ -351,11 +351,9 @@ std::string processPostfix (std::string postfix)
                  || postfix.at(i) == '^' || postfix.at(i) == '%' )
         {
             singleOperation.push_back(numbers->peek());
-            //std::cout << "top of numbers: " << numbers.top() << std::endl;
             numbers->pop();
 
             singleOperation.push_back(numbers->peek());
-            //std::cout << "top of numbers: " << numbers.top() << std::endl;
             numbers->pop();
 
             singleOperationAnswer = compute(singleOperation, postfix.at(i));
@@ -651,7 +649,6 @@ std::vector<std::string> stringToVector(std::string stringInput)
                     vectorInput.insert(vectorInput.begin() + j + 1, "x");
                     vectorInput.insert(vectorInput.begin() + j + 2, "^");
                     vectorInput.insert(vectorInput.begin() + j + 3, "0");
-
                 }
                 break;
 	    }
@@ -672,7 +669,6 @@ std::vector<std::string> stringToVector(std::string stringInput)
                     //v.insert(v.begin() + i, valueToInsert);
                     vectorInput.insert(vectorInput.begin() + j, "^");
                     vectorInput.insert(vectorInput.begin() + j + 1, "1");
-
                 }
                 break;
 	    }
@@ -712,8 +708,10 @@ std::string vectorToString (std::vector <std::string> vec)
         } 
 	else if (temp == "^") 
 	{
-            if (vec[i + 1] == "-1") {
+            if (vec[i + 1] == "-1") 
+	    {
                 ans += "0";
+	    }
         } 
 	else if (vec[i + 1] == "1") 
 	{
@@ -757,7 +755,8 @@ std::string vectorToString (std::vector <std::string> vec)
                     ans_ += ans.at(i);
 		}
             }
-            if (ans.length() == 0) {
+            if (ans.length() == 0) 
+	    {
                 ans_ = "0";
             }
         } 
@@ -782,8 +781,6 @@ std::string integrate (std::string stringInput)
     vectorInput = stringToVector(stringInput);
     for (int j = vectorInput.size() - 1; j >= 0;  j--)
     {
-        //std::cout << "vector input at " << j << ": " << vectorInput[j] << std::endl;
-        //std::cout << vectorInput[j] << std::endl;
         modTest = j % 6;
         switch (modTest)
         {
@@ -864,7 +861,6 @@ std::string derive (std::string stringInput)
     std::string::size_type sz;
 
     vectorInput = stringToVector(stringInput);
-    //std::cout << "Vector input: " << std::endl;
     for (int j = vectorInput.size() - 1; j >= 0;  j--)
     {
         modTest = j % 6;
