@@ -245,7 +245,7 @@ std::string compute(std::vector<std::string> singleOperation, char operation)
             //results in loss of data, but users are expected to enter ints when computing
             int a = x;
             int b = y;
-            ans = a % b;
+            ans = b % a;
             break;
         }
         default:
@@ -497,7 +497,7 @@ std::string preProcess(std::string input)
     std::string newString = input;
     int digitNum = 0;
     int digitStart = 0;
-    for (int x = 0; x < input.length(); x++) 
+    for (int x = 0;(unsigned) x < input.length(); x++)
     {
         if(input[x] == 'e') 
         {
@@ -562,7 +562,11 @@ std::string preProcess(std::string input)
             newString = prev + "n " + digit + " / n 10" + after;
             std::cout << "newString test: " << newString << std::endl;
         }
-        else if (x == 1 && input[x] == 'd')
+        else if (input[x] == '.') {
+         newString.insert(newString.begin() + x, '0');
+        }
+
+            else if (x == 1 && input[x] == 'd')
         {
             //send to derive
             newString = input.substr(6);
