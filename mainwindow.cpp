@@ -616,8 +616,6 @@ std::string preProcess(std::string input) {
     }
     return newString;
 }
-<<<<<<< HEAD
-=======
 
 //checks if the character a is an operator
 bool isOperator(char a)
@@ -1104,7 +1102,3 @@ void MainWindow::on_question_released()
                         );
     }
 }
-
-
-
->>>>>>> upstream/master
